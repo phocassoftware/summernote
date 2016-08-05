@@ -94,7 +94,7 @@ define([
       var isChange = $editable.html() !== value;
 
       $editable.html(value);
-      $editable.height(options.height ? $codable.height() : 'auto');
+      $editable.height(options.height || options.resizeToParent ? $codable.height() : 'auto');
       $editor.removeClass('codeview');
 
       if (isChange) {

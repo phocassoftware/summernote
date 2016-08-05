@@ -28,6 +28,8 @@ define(function () {
       });
 
       context.invoke('buttons.updateCurrentStyle');
+
+      context.invoke('fullscreen.toggle', false);
     };
 
     this.destroy = function () {

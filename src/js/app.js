@@ -46,9 +46,16 @@ require(['jquery', 'summernote'], function ($) {
   promise.then(function () {
     // initialize summernote
     $('.summernote').summernote({
-      height: 300,
-      lang: 'ko-KR',
-      placeholder: 'type here...'
+      // height: 300,
+      resizeToParent: true,
+      placeholder: 'type here...',
+      callbacks: {
+        onInit: function () {
+          
+        }
+      }
     });
+
+    
   });
 });

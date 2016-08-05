@@ -6,7 +6,7 @@
  * Copyright 2013-2015 Alan Hong. and other contributors
  * summernote may be freely distributed under the MIT license./
  *
- * Date: 2016-01-14T13:17Z
+ * Date: 2016-08-04T07:00Z
  */
 (function (factory) {
   /* global define */
@@ -4725,7 +4725,7 @@
       var isChange = $editable.html() !== value;
 
       $editable.html(value);
-      $editable.height(options.height ? $codable.height() : 'auto');
+      $editable.height(options.height || options.resizeToParent ? $codable.height() : 'auto');
       $editor.removeClass('codeview');
 
       if (isChange) {
@@ -4790,10 +4790,14 @@
     var $window = $(window);
     var $scrollbar = $('html, body');
 
+    var resizeToParent = context.options.resizeToParent;
+
+    var isFullscreen = false;
+
     /**
      * toggle fullscreen
      */
-    this.toggle = function () {
+    this.toggle = function (value) {
       var resize = function (size) {
         $editable.css('height', size.h);
         $codable.css('height', size.h);
@@ -4802,19 +4806,42 @@
         }
       };
 
-      $editor.toggleClass('fullscreen');
-      var isFullscreen = $editor.hasClass('fullscreen');
+      var resizeToElement = function ($element) {
+          resize({
+            h: $element.height() - $toolbar.outerHeight()
+          });
+        };
+
+      isFullscreen = value === undefined ? !isFullscreen : value;
+
+      $editor.removeClass('fullscreen');
+      $editor.removeClass('resize-to-parent');
+
       if (isFullscreen) {
+        $editor.addClass('fullscreen');
+
         $editable.data('orgHeight', $editable.css('height'));
 
+        $window.off('resize');
         $window.on('resize', function () {
-          resize({
-            h: $window.height() - $toolbar.outerHeight()
-          });
+          resizeToElement($window);
         }).trigger('resize');
 
         $scrollbar.css('overflow', 'hidden');
-      } else {
+      }
+      else if (resizeToParent) {
+        $editor.addClass('resize-to-parent');
+
+        $editable.data('orgHeight', $editable.css('height'));
+
+        $window.off('resize');
+        $window.on('resize', function () {
+          resizeToElement($editor.parent());
+        }).trigger('resize');
+
+        $scrollbar.css('overflow', 'hidden');
+      }
+      else {
         $window.off('resize');
         resize({
           h: $editable.data('orgHeight')
@@ -4824,6 +4851,10 @@
 
       context.invoke('toolbar.updateFullscreen', isFullscreen);
     };
+
+    console.log('Bar');
+    this.toggle(false);
+    console.log('Qux');
   };
 
   var Handle = function (context) {
@@ -5751,6 +5782,8 @@
       });
 
       context.invoke('buttons.updateCurrentStyle');
+
+      context.invoke('fullscreen.toggle', false);
     };
 
     this.destroy = function () {

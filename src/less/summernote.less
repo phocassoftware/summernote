@@ -115,6 +115,25 @@
     }
   }
 
+  /* resize-to-parent mode */
+  &.resize-to-parent {
+    // top: 0;
+    // left: 0;
+    // width: 100%;
+    // height: 100%;
+    margin: 0;
+
+    border: 0;
+
+    z-index: 1050; /* bs3 modal-backdrop: 1030, bs2: 1040 */
+    .note-editable {
+      background-color: white;
+    }
+    .note-resizebar {
+      display: none;
+    }
+  }
+
   /* statusbar */
   .note-statusbar {
     background-color: @background-color;
