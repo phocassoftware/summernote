@@ -72,9 +72,7 @@ define([
       context.invoke('toolbar.updateFullscreen', isFullscreen);
     };
 
-    console.log('Bar');
     this.toggle(false);
-    console.log('Qux');
   };
 
   return Fullscreen;
