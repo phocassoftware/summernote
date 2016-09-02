@@ -6,7 +6,7 @@
  * Copyright 2013-2015 Alan Hong. and other contributors
  * summernote may be freely distributed under the MIT license./
  *
- * Date: 2016-08-05T05:20Z
+ * Date: 2016-09-02T01:00Z
  */
 (function (factory) {
   /* global define */
@@ -4828,9 +4828,7 @@
       context.invoke('toolbar.updateFullscreen', isFullscreen);
     };
 
-    console.log('Bar');
     this.toggle(false);
-    console.log('Qux');
   };
 
   var Handle = function (context) {
@@ -5858,6 +5856,10 @@
         ui.onDialogShown(self.$dialog, function () {
           context.triggerEvent('dialog.shown');
 
+          function toggleLinkButton() {
+            ui.toggleBtn($linkBtn, $linkText.val() && $linkUrl.val());
+          }
+
           $linkText.val(linkInfo.text);
 
           $linkText.on('input', function () {
@@ -5874,7 +5876,7 @@
           }
 
           $linkUrl.on('input', function () {
-            ui.toggleBtn($linkBtn, $linkText.val() && $linkUrl.val());
+            toggleLinkButton();
             // display same link on `Text to display` input
             // when create a new link
             if (!linkInfo.text) {
@@ -5898,6 +5900,8 @@
             });
             self.$dialog.modal('hide');
           });
+
+          toggleLinkButton();
         });
 
         ui.onDialogHidden(self.$dialog, function () {

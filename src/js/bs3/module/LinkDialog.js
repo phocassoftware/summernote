@@ -65,6 +65,10 @@ define([
         ui.onDialogShown(self.$dialog, function () {
           context.triggerEvent('dialog.shown');
 
+          function toggleLinkButton() {
+            ui.toggleBtn($linkBtn, $linkText.val() && $linkUrl.val());
+          }
+
           $linkText.val(linkInfo.text);
 
           $linkText.on('input', function () {
@@ -81,7 +85,7 @@ define([
           }
 
           $linkUrl.on('input', function () {
-            ui.toggleBtn($linkBtn, $linkText.val() && $linkUrl.val());
+            toggleLinkButton();
             // display same link on `Text to display` input
             // when create a new link
             if (!linkInfo.text) {
@@ -105,6 +109,8 @@ define([
             });
             self.$dialog.modal('hide');
           });
+
+          toggleLinkButton();
         });
 
         ui.onDialogHidden(self.$dialog, function () {
