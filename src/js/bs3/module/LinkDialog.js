@@ -72,7 +72,7 @@ define([
           $linkText.val(linkInfo.text);
 
           $linkText.on('input', function () {
-            ui.toggleBtn($linkBtn, $linkText.val() && $linkUrl.val());
+            toggleLinkButton();
             // if linktext was modified by keyup,
             // stop cloning text from linkUrl
             linkInfo.text = $linkText.val();
@@ -85,12 +85,14 @@ define([
           }
 
           $linkUrl.on('input', function () {
-            toggleLinkButton();
             // display same link on `Text to display` input
             // when create a new link
             if (!linkInfo.text) {
               $linkText.val($linkUrl.val());
+
             }
+
+            toggleLinkButton();
           }).val(linkInfo.url).trigger('focus');
 
           self.bindEnterKey($linkUrl, $linkBtn);

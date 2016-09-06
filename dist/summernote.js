@@ -6,7 +6,7 @@
  * Copyright 2013-2015 Alan Hong. and other contributors
  * summernote may be freely distributed under the MIT license./
  *
- * Date: 2016-09-02T01:00Z
+ * Date: 2016-09-06T02:15Z
  */
 (function (factory) {
   /* global define */
@@ -5863,7 +5863,7 @@
           $linkText.val(linkInfo.text);
 
           $linkText.on('input', function () {
-            ui.toggleBtn($linkBtn, $linkText.val() && $linkUrl.val());
+            toggleLinkButton();
             // if linktext was modified by keyup,
             // stop cloning text from linkUrl
             linkInfo.text = $linkText.val();
@@ -5876,12 +5876,14 @@
           }
 
           $linkUrl.on('input', function () {
-            toggleLinkButton();
             // display same link on `Text to display` input
             // when create a new link
             if (!linkInfo.text) {
               $linkText.val($linkUrl.val());
+
             }
+
+            toggleLinkButton();
           }).val(linkInfo.url).trigger('focus');
 
           self.bindEnterKey($linkUrl, $linkBtn);
